@@ -1,4 +1,5 @@
 def generate_comprehensive_sample_data(years, months):
+    """Generate sample data optimized for cloud deployment"""
     print("📊 Generating cloud-optimized sample data...")
     print(f"   Years: {list(years)}")
     print(f"   Months: {list(months)}")
@@ -18,10 +19,11 @@ def generate_comprehensive_sample_data(years, months):
             2015: 0.75, 2016: 0.80, 2017: 0.85, 2018: 0.90, 2019: 0.95,
             2020: 0.70, 2021: 0.80, 2022: 1.0, 2023: 1.08, # -*- coding: utf-8 -*-
 """
-NYC Taxi Analytics Dashboard
+NYC Taxi Analytics Dashboard - Cloud Deployment Ready
+Cloud-optimized version for reliable hosting
 """
 
-# HEROKU OPTIMIZATION: Removed unnecessary installations
+# Cloud optimization: Removed unnecessary installations
 print("📦 Importing libraries for cloud deployment...")
 
 # STEP 2: Import required libraries (cloud optimized)
@@ -41,7 +43,7 @@ warnings.filterwarnings('ignore')
 
 print("✅ All libraries imported successfully!")
 
-# HEROKU: Initialize app for cloud deployment
+# Cloud: Initialize app for cloud deployment
 app = dash.Dash(
     __name__,
     external_stylesheets=[],
@@ -52,7 +54,7 @@ app = dash.Dash(
     ]
 )
 
-# HEROKU: Server configuration
+# Cloud: Server configuration
 server = app.server
 server.secret_key = os.environ.get('SECRET_KEY', 'nyc-taxi-analytics-secret-key-2024')
 
@@ -61,11 +63,11 @@ taxi_data = None
 multi_year_data = None
 public_url = None
 
-# HEROKU: Simplified zone mapping (no external API calls)
+# Cloud: Simplified zone mapping (no external API calls)
 def load_nyc_zone_mapping():
     """Load NYC Taxi Zone mapping optimized for cloud deployment"""
     try:
-        # HEROKU OPTIMIZATION: Use embedded zone data instead of external API
+        # Cloud optimization: Use embedded zone data instead of external API
         zone_mapping = {}
         
         # NYC Borough mappings with famous locations for better UX
@@ -636,7 +638,7 @@ def create_time_series_charts(trends_df):
         return fig
 
 def create_top_zones_histogram(top_zones_df):
-    """Create histogram of top performing zones"""
+    """Create histogram of top performing zones with gaps between bars"""
     try:
         if top_zones_df is None or len(top_zones_df) == 0:
             fig = go.Figure()
@@ -681,7 +683,7 @@ def create_top_zones_histogram(top_zones_df):
             'tips': '#9775fa'
         }
 
-        # 1. Revenue Histogram
+        # 1. Revenue Histogram with gaps
         fig.add_trace(
             go.Bar(
                 x=zone_names,
@@ -690,12 +692,13 @@ def create_top_zones_histogram(top_zones_df):
                 marker_color=colors['revenue'],
                 hovertemplate='<b>%{x}</b><br>Revenue: $%{y:,.0f}<extra></extra>',
                 text=[f"${x:,.0f}" for x in top_zones_df['total_revenue']],
-                textposition='outside'
+                textposition='outside',
+                width=0.6  # Add gap by reducing bar width
             ),
             row=1, col=1
         )
 
-        # 2. Total Rides Histogram
+        # 2. Total Rides Histogram with gaps
         fig.add_trace(
             go.Bar(
                 x=zone_names,
@@ -704,12 +707,13 @@ def create_top_zones_histogram(top_zones_df):
                 marker_color=colors['rides'],
                 hovertemplate='<b>%{x}</b><br>Rides: %{y:,.0f}<extra></extra>',
                 text=[f"{x:,.0f}" for x in top_zones_df['total_rides']],
-                textposition='outside'
+                textposition='outside',
+                width=0.6  # Add gap by reducing bar width
             ),
             row=1, col=2
         )
 
-        # 3. Average Fare Histogram
+        # 3. Average Fare Histogram with gaps
         fig.add_trace(
             go.Bar(
                 x=zone_names,
@@ -718,12 +722,13 @@ def create_top_zones_histogram(top_zones_df):
                 marker_color=colors['fare'],
                 hovertemplate='<b>%{x}</b><br>Avg Fare: $%{y:.2f}<extra></extra>',
                 text=[f"${x:.1f}" for x in top_zones_df['avg_fare_per_ride']],
-                textposition='outside'
+                textposition='outside',
+                width=0.6  # Add gap by reducing bar width
             ),
             row=2, col=1
         )
 
-        # 4. Tip Percentage Histogram
+        # 4. Tip Percentage Histogram with gaps
         fig.add_trace(
             go.Bar(
                 x=zone_names,
@@ -732,19 +737,23 @@ def create_top_zones_histogram(top_zones_df):
                 marker_color=colors['tips'],
                 hovertemplate='<b>%{x}</b><br>Tip %: %{y:.1f}%<extra></extra>',
                 text=[f"{x:.1f}%" for x in top_zones_df['tip_percentage']],
-                textposition='outside'
+                textposition='outside',
+                width=0.6  # Add gap by reducing bar width
             ),
             row=2, col=2
         )
 
-        # Update layout
+        # Update layout with additional gap settings
         fig.update_layout(
             height=600,
             showlegend=False,
             paper_bgcolor='rgba(26,27,30,1)',
             plot_bgcolor='rgba(26,27,30,1)',
             font=dict(color='white', size=10),
-            title_font=dict(color='white', size=12)
+            title_font=dict(color='white', size=12),
+            # Global bar gap settings
+            bargap=0.3,  # Gap between bars in same group (30% of bar width)
+            bargroupgap=0.1  # Gap between different groups
         )
 
         # Update axes styling
@@ -753,7 +762,9 @@ def create_top_zones_histogram(top_zones_df):
             gridcolor='rgba(128,128,128,0.2)',
             tickfont=dict(color='white', size=9),
             tickangle=45,
-            title_font=dict(color='white')
+            title_font=dict(color='white'),
+            categoryorder='array',  # Maintain order
+            categoryarray=zone_names
         )
         fig.update_yaxes(
             showgrid=True,
@@ -768,7 +779,7 @@ def create_top_zones_histogram(top_zones_df):
         fig.update_yaxes(tickformat='$,.0f', row=2, col=1)  # Average fare
         fig.update_yaxes(tickformat='.1f', row=2, col=2)    # Tip percentage
 
-        print("✅ Top zones histogram created successfully")
+        print("✅ Top zones histogram with gaps created successfully")
         return fig
 
     except Exception as e:
@@ -1144,7 +1155,7 @@ def create_page2_content():
 app = dash.Dash(__name__, external_stylesheets=[])
 app.title = "NYC Taxi Analytics - Cloud Deployment"
 
-# HEROKU: Server configuration for cloud deployment
+# Cloud: Server configuration for cloud deployment
 server = app.server
 
 # Set the layout
@@ -1598,12 +1609,12 @@ def update_multi_year_analytics(multi_year_store):
             style={"color": "#ff6b6b", "textAlign": "center", "padding": "20px"}
         )
 
-# HEROKU: Cloud deployment optimized app runner
+# Cloud: Cloud deployment optimized app runner
 def run_app():
     """Run the NYC Taxi Analytics Dashboard optimized for cloud deployment"""
     print("\n🚀 Starting NYC Taxi Analytics Dashboard for Cloud Deployment...")
     print("✅ CLOUD-READY FEATURES:")
-    print("   • ☁️ Heroku deployment optimized")
+    print("   • ☁️ Cloud deployment optimized")
     print("   • 🔧 Multi-select dropdowns for years (2015-2024) and months")
     print("   • 📊 10-year multi-year data loading and analysis")
     print("   • 🗺️ Enhanced hotspot analysis with multi-filter support")
@@ -1611,9 +1622,9 @@ def run_app():
     print("   • 🏆 Top 10 performing zones histogram")
     print("   • 🎛️ Robust error handling and data validation")
     print("   • 📱 Mobile-responsive design")
-    print("   • 🌐 No external dependencies (no ngrok)")
+    print("   • 🌐 No external dependencies")
     
-    # HEROKU: Get port from environment variable
+    # Cloud: Get port from environment variable
     port = int(os.environ.get('PORT', 8050))
     
     print(f"\n🌍 CLOUD DEPLOYMENT:")
@@ -1642,38 +1653,50 @@ if __name__ == "__main__":
     run_app()
 
 print("\n" + "="*80)
-print("🎯 NYC TAXI ANALYTICS DASHBOARD - READY!")
+print("🎯 NYC TAXI ANALYTICS - CLOUD DEPLOYMENT READY!")
 print("="*80)
-print("✅ FEATURES WORKING:")
+print("✅ CLOUD-OPTIMIZED FEATURES:")
+print("   ☁️ Cloud deployment ready (no external dependencies)")
 print("   🔧 Multi-select dropdowns for years (2015-2024) and months")
 print("   📊 10-year multi-year data loading and comprehensive analytics")
-print("   🗺️ Interactive hotspot maps with zone names")
+print("   🗺️ Interactive hotspot maps with famous NYC zone names")
 print("   📈 Time series charts showing 10-year trends")
 print("   🏆 Top 10 performing zones histogram (4 different metrics)")
 print("   🎛️ Robust error handling and data validation")
 print("   📱 Mobile-responsive design")
-print("   🌐 Improved ngrok error handling")
+print("   🌐 No external dependencies - pure cloud deployment")
+print("   💾 Memory optimized for cloud platforms")
 print("")
-print("📋 HOW TO USE:")
-print("1. 🖱️ Select multiple years (2015-2024) and/or months using dropdowns")
-print("2. ⚡ Click 'Quick Demo' for instant 10-year sample data")
-print("3. 📊 Click 'Load Multi-Year Data' for comprehensive time series analysis")
-print("4. 🚀 Click 'Analyze Selection' to process your specific filters")
-print("5. 📱 Navigate between 'Hotspots & Maps' and 'Multi-Year Analytics'")
-print("6. 🗺️ Explore interactive maps and detailed trend charts")
-print("7. 🏆 Check out the new top zones histogram on Page 2")
+print("🚀 DEPLOYMENT INSTRUCTIONS:")
+print("1. 📁 Create project folder: mkdir nyc-taxi-cloud && cd nyc-taxi-cloud")
+print("2. 📄 Save this code as: app.py")
+print("3. 📋 Create requirements.txt with:")
+print("   dash==2.17.1")
+print("   dash-mantine-components==0.14.4") 
+print("   dash-iconify==0.1.2")
+print("   plotly==5.17.0")
+print("   pandas==2.1.4")
+print("   numpy==1.24.3")
+print("   gunicorn==21.2.0")
+print("4. 🔧 Deploy: git init && git add . && git commit -m 'Deploy'")
+print("5. ☁️ Cloud: Connect GitHub repo to your cloud platform")
 print("")
-print("🔧 LATEST UPDATES:")
-print("   ✅ Extended year range to 10 years (2015-2024)")
-print("   ✅ Added top 10 performing zones histogram")
-print("   ✅ Improved ngrok error handling and user guidance")
-print("   ✅ Enhanced data generation with historical patterns")
-print("   ✅ 4 different zone performance metrics visualization")
+print("🌍 RECOMMENDED CLOUD PLATFORMS:")
+print("   • Render.com (render.com) - Free tier available")
+print("   • Railway.app (railway.app) - Easy deployment")
+print("   • DigitalOcean App Platform - Good performance")
+print("   • Google Cloud Run - Serverless option")
+print("   • AWS Elastic Beanstalk - AWS ecosystem")
 print("")
-print("🌐 NGROK TROUBLESHOOTING:")
-print("   • If ngrok fails, check dashboard.ngrok.com/agents")
-print("   • Close other ngrok sessions and restart")
-print("   • Dashboard works on Colab local network if ngrok unavailable")
+print("📋 WHAT'S OPTIMIZED FOR CLOUD:")
+print("   ✅ Removed external dependencies")
+print("   ✅ Reduced memory usage (4k records/month vs 8k)")
+print("   ✅ Embedded zone data (no external API calls)")
+print("   ✅ Simplified date handling")
+print("   ✅ Production-ready error handling")
+print("   ✅ Gunicorn server configuration")
+print("   ✅ Environment variable support")
+print("   ✅ Added gaps between histogram bars for better visualization")
 print("="*80)
-print("🚀 Your 10-year analytics dashboard is ready!")
+print("🚀 Your cloud-ready dashboard is ready for deployment!")
 print("="*80)

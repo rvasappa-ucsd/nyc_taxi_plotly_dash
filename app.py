@@ -1,5 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+NYC Taxi Analytics Dashboard
+"""
+
+import numpy as np
+
 def generate_comprehensive_sample_data(years, months):
-    """Generate sample data optimized for cloud deployment"""
+    """
+    Generate sample NYC taxi-like data optimized for cloud deployment.
+
+    Args:
+        years (iterable): List or set of years (e.g., range(2015, 2024))
+        months (iterable): List or set of months (1-12)
+    
+    Returns:
+        list: Simulated dataset entries (can be extended with structure)
+    """
     print("📊 Generating cloud-optimized sample data...")
     print(f"   Years: {list(years)}")
     print(f"   Months: {list(months)}")
@@ -14,14 +30,30 @@ def generate_comprehensive_sample_data(years, months):
             7: 1.05, 8: 1.00, 9: 1.10, 10: 1.15, 11: 1.20, 12: 1.25
         }
 
-        # Year-over-year growth patterns (extended to 10 years)
+        # Year-over-year growth patterns (extended to 2024)
         yoy_growth = {
             2015: 0.75, 2016: 0.80, 2017: 0.85, 2018: 0.90, 2019: 0.95,
-            2020: 0.70, 2021: 0.80, 2022: 1.0, 2023: 1.08, # -*- coding: utf-8 -*-
-"""
-NYC Taxi Analytics Dashboard - Cloud Deployment Ready
-Cloud-optimized version for reliable hosting
-"""
+            2020: 0.70, 2021: 0.80, 2022: 1.00, 2023: 1.08, 2024: 1.12
+        }
+
+        for year in years:
+            for month in months:
+                base = 10000  # base trip volume
+                seasonal_factor = seasonal_multipliers.get(month, 1.0)
+                growth_factor = yoy_growth.get(year, 1.0)
+                trips = int(base * seasonal_factor * growth_factor)
+                all_data.append({
+                    "year": year,
+                    "month": month,
+                    "trips": trips
+                })
+
+        return all_data
+
+    except Exception as e:
+        print("❌ Error generating sample data:", str(e))
+        return []
+
 
 # Cloud optimization: Removed unnecessary installations
 print("📦 Importing libraries for cloud deployment...")

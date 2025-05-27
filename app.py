@@ -176,6 +176,7 @@ def generate_comprehensive_sample_data(years, months):
             2015: 0.75, 2016: 0.80, 2017: 0.85, 2018: 0.90, 2019: 0.95,
             2020: 0.70, 2021: 0.80, 2022: 1.0, 2023: 1.08, 2024: 1.12
         }
+        }
 
         zones = list(range(1, 265))
         base_records_per_month = 8000  # Adjusted for longer time periods
